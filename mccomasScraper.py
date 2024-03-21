@@ -11,11 +11,11 @@ import requests
 def recordCapData():
   res = requests.get('https://connect.recsports.vt.edu/facilityoccupancy')
 
-  fullText = res.text
   stat = res.status_code
   if stat == 200:
+    fullText = res.text
     splitted = fullText.split('\n')
-
+    
     #the line number of where the occupancy is mentioned - 573 is the line number
     spot = len(splitted) - 286
     #print(spot)
