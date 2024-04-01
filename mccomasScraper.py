@@ -1,4 +1,4 @@
-# This file is meant to scrape a website to get the live occupancy of McComas Gym
+# This file is meant to scrape two websites to get the live occupancy of McComas Gym and Weather Data
 #import numpy as np
 from datetime import datetime, timezone, timedelta
 import schedule
@@ -10,9 +10,15 @@ import requests
 
 def recordCapData():
   res = requests.get('https://connect.recsports.vt.edu/facilityoccupancy')
+  
+  res2 = requests.get('https://w1.weather.gov/data/obhistory/KBCB.html')
 
   stat = res.status_code
-  if stat == 200:
+  stat2 = res2.status_code
+  
+  if stat == 200 and stat2 == 200:
+    
+    #Occupancy Data
     fullText = res.text
     splitted = fullText.split('\n')
     
@@ -32,6 +38,22 @@ def recordCapData():
       currIndex += 1
 
     print("Current Occupancy: ", currentOccupancy)
+    
+    #Weather Data
+    fullTextWeather = res2.text
+    splittedWeather = fullTextWeather.split('\n')
+    
+    #the line number of where the current weather is mentioned, 23 is the line number
+    spotWeather = 23
+    
+    #the full line of code that containes the current weather
+    lineWeather = splittedWeather[spotWeather]
+    #print(lineWeather)
+    
+    # Current Temperature Values
+    
+    currentTemp = lineWeather[-19:-17]
+    print("Current Temperature: ", currentTemp)
 
     #get day of week and time of recording
     tzinfo = timezone(timedelta(hours=-4))  #timezone offset for EST is -5
@@ -58,10 +80,10 @@ def recordCapData():
     print()
 
     if time > startTime.time() and time < endTime.time():
-      # data list containing datetime values
-      data = [c_date, time, day_of_week]
+      # data list containing datetime and weather values
+      data = [currentTemp, c_date, time, day_of_week]
       # target list containing current occupancy
-      target = [currentOccupancy, c_date, time]
+      target = [currentOccupancy, currentTemp, c_date, time, day_of_week]
 
       # Open existing trainingData csv file and save date, time, and day of week
       with open('mccomasTarget.csv', 'a', newline='') as targetFile:
