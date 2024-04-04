@@ -81,9 +81,9 @@ def recordCapData():
 
     if time > startTime.time() and time < endTime.time():
       # data list containing datetime and weather values
-      data = [currentTemp, c_date, time, currentTemp, day_of_week]
+      data = [currentTemp, c_date, time, day_of_week]
       # target list containing current occupancy
-      target = [currentOccupancy, c_date, time]
+      target = [currentOccupancy, currentTemp, c_date, time, day_of_week]
 
       # Open existing trainingData csv file and save date, time, and day of week
       with open('mccomasTarget.csv', 'a', newline='') as targetFile:
