@@ -2,7 +2,14 @@ import numpy as np
 import csv
 #import pandas as pd    # not using pandas at the moment
 import matplotlib.pyplot as plt     # pip install matplotlib
-from sklearn.linear_model import LinearRegression   # do: pip install scikit-learn
+import sklearn
+from sklearn.model_selection import train_test_split    # use to split up the data set
+#classification models
+from sklearn.linear_model import LogisticRegression   # do: pip install scikit-learn
+from sklearn.neighbors import KNeighborsClassifier  
+from sklearn import svm
+from sklearn.naive_bayes import GaussianNB
+
 
 dataPath = "mccomasData.csv"    #data file path
 targetPath = "mccomasTarget.csv"    #target file path
@@ -40,3 +47,6 @@ inputData = []
 for i in range(len(floatTime)):
     inputData.append([floatTemp[i], floatTime[i], floatDay[i]])
 
+#X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5, random_state=0)
+#gnb = GaussianNB()
+#y_pred = gnb.fit(X_train, y_train).predict(X_test)
