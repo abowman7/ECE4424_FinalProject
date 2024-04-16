@@ -52,9 +52,30 @@ for ppl in initTarget:
 inputData = []
 for i in range(len(floatTime)):
     inputData.append([floatTemp[i], floatTime[i], floatDay[i]])
+#print(inputData)
 
-#X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5, random_state=0)
+# Splitting into training and test data
+X_train, X_test, y_train, y_test = train_test_split(inputData, occupancy, test_size=0.5, random_state=0)
+#print(X_train)
+
 #gnb = GaussianNB()
 #y_pred = gnb.fit(X_train, y_train).predict(X_test)
+
+
+# Applying KNN Classification 
+
+#knn using ball tree algorithm
+bestBallAccuracy = 0
+bestBallKValue = 0
+for i in range (1, 31):
+    knn_ball = KNeighborsClassifier(n_neighbors=i, algorithm='ball_tree')    
+    knn_ball.fit(X_train, y_train)
+    mean_accuracy = knn_ball.score(X_test, y_test)
+    print(mean_accuracy)
     
-print(inputData)
+    if mean_accuracy > bestBallAccuracy:
+        bestBallAccuracy = mean_accuracy
+        bestBallKValue = i
+        
+
+print("Using the ball tree algorithm with knn, the best k value was {}, with a mean accuracy of {}".format(bestBallKValue, mean_accuracy))
