@@ -120,3 +120,17 @@ for i in range (1, 31):
         
 
 print("Using the brute-force search algorithm with knn, the best k value was {}, with a mean accuracy of {}".format(bestBruteKValue, bestBruteAccuracy))
+
+
+#Logistic Regression
+logReg = LogisticRegression()
+#fit data to model
+logReg.fit(X_train, y_train)
+#predict test data
+logPredict = logReg.predict(X_test)
+#save accuracies into a list
+logRegAccuracies = [prediction == testVal for prediction, testVal in zip(logPredict, y_test)]
+#total accuracy
+logAcc = sum(logRegAccuracies) / len(logRegAccuracies)
+#print
+print("Using the Logistic Regression model, the mean accuracy was: ", logAcc)
