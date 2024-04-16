@@ -55,7 +55,7 @@ for i in range(len(floatTime)):
 #print(inputData)
 
 # Splitting into training and test data
-X_train, X_test, y_train, y_test = train_test_split(inputData, occupancy, test_size=0.5, random_state=0)
+X_train, X_test, y_train, y_test = train_test_split(inputData, occupancy, test_size=0.2, random_state=0)
 #print(X_train)
 
 #gnb = GaussianNB()
