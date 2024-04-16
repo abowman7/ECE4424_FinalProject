@@ -67,15 +67,56 @@ X_train, X_test, y_train, y_test = train_test_split(inputData, occupancy, test_s
 #knn using ball tree algorithm
 bestBallAccuracy = 0
 bestBallKValue = 0
+BallAccuracy = []
+
 for i in range (1, 31):
     knn_ball = KNeighborsClassifier(n_neighbors=i, algorithm='ball_tree')    
     knn_ball.fit(X_train, y_train)
     mean_accuracy = knn_ball.score(X_test, y_test)
-    print(mean_accuracy)
-    
-    if mean_accuracy > bestBallAccuracy:
+    BallAccuracy.append(mean_accuracy)
+    #print(mean_accuracy)
+
+    if bestBallAccuracy < mean_accuracy :
         bestBallAccuracy = mean_accuracy
         bestBallKValue = i
         
+print("Using the ball tree algorithm with knn, the best k value was {}, with a mean accuracy of {}".format(bestBallKValue, bestBallAccuracy))
 
-print("Using the ball tree algorithm with knn, the best k value was {}, with a mean accuracy of {}".format(bestBallKValue, mean_accuracy))
+
+#knn using kd tree algorithm
+bestKdAccuracy = 0
+bestKdKValue = 0
+KdAccuracy = []
+
+for i in range (1, 31):
+    knn_kd = KNeighborsClassifier(n_neighbors=i, algorithm='kd_tree')    
+    knn_kd.fit(X_train, y_train)
+    mean_accuracy = knn_kd.score(X_test, y_test)
+    KdAccuracy.append(mean_accuracy)
+    #print(mean_accuracy)
+
+    if bestKdAccuracy < mean_accuracy :
+        bestKdAccuracy = mean_accuracy
+        bestKdKValue = i
+        
+print("Using the kd tree algorithm with knn, the best k value was {}, with a mean accuracy of {}".format(bestKdKValue, bestKdAccuracy))
+
+
+#knn using brute force search
+bestBruteAccuracy = 0
+bestBruteKValue = 0
+BruteAccuracy = []
+
+for i in range (1, 31):
+    knn_brute = KNeighborsClassifier(n_neighbors=i, algorithm='brute')    
+    knn_brute.fit(X_train, y_train)
+    mean_accuracy = knn_brute.score(X_test, y_test)
+    BruteAccuracy.append(mean_accuracy)
+    #print(mean_accuracy)
+
+    if bestBruteAccuracy < mean_accuracy :
+        bestBruteAccuracy = mean_accuracy
+        bestBruteKValue = i
+        
+
+print("Using the brute-force search algorithm with knn, the best k value was {}, with a mean accuracy of {}".format(bestBruteKValue, bestBruteAccuracy))
