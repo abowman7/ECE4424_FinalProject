@@ -120,3 +120,12 @@ for i in range (1, 31):
         
 
 print("Using the brute-force search algorithm with knn, the best k value was {}, with a mean accuracy of {}".format(bestBruteKValue, bestBruteAccuracy))
+
+
+
+# Applying Support Vector Machines for Classification
+
+svm_model = svm.SVC()
+svm_model.fit(X_train, y_train)
+svm_accuracy = svm_model.score(X_test, y_test)
+print("Using Support Vector Machines, an accuracy of {} was obtained".format(svm_accuracy))
