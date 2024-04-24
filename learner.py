@@ -1,12 +1,12 @@
 import numpy as np
 import csv
-#import pandas as pd    # not using pandas at the moment
-import matplotlib.pyplot as plt     # pip install matplotlib
+import matplotlib.pyplot as plt                          # pip install matplotlib
 import sklearn
-from sklearn.model_selection import train_test_split    # use to split up the data set
+from sklearn.model_selection import train_test_split     # use to split up the data set
 from sklearn import metrics #use to check accuracy
+
 #classification models
-from sklearn.linear_model import LogisticRegression   # do: pip install scikit-learn
+from sklearn.linear_model import LogisticRegression      # do: pip install scikit-learn
 from sklearn.neighbors import KNeighborsClassifier  
 from sklearn import svm
 from sklearn.naive_bayes import GaussianNB
@@ -56,6 +56,7 @@ for i in range(len(floatTime)):
 #print(inputData)
 
 # Splitting into training and test data
+rs = 0              #random state variable
 X_train, X_test, y_train, y_test = train_test_split(inputData, occupancy, test_size=0.2, random_state=0)
 #print(X_train)
 
@@ -64,11 +65,11 @@ X_train, X_test, y_train, y_test = train_test_split(inputData, occupancy, test_s
 
 
 # Applying KNN Classification 
-
 #knn using ball tree algorithm
 bestBallAccuracy = 0
 bestBallKValue = 0
 BallAccuracy = []
+kValues = np.linspace(1, 30, 30)
 
 for i in range (1, 31):
     knn_ball = KNeighborsClassifier(n_neighbors=i, algorithm='ball_tree')    
@@ -121,7 +122,31 @@ for i in range (1, 31):
         
 
 print("Using the brute-force search algorithm with knn, the best k value was {}, with a mean accuracy of {}".format(bestBruteKValue, bestBruteAccuracy))
+"""
+# KNN Plots
 
+# Ball tree plot
+plt.plot(kValues, BallAccuracy)
+plt.xlabel('K values')
+plt.ylabel('Accuracy')
+plt.title('Accuracy of Different K Values Using KNN Classification with Ball Tree Algorithm')
+plt.show()
+
+# Kd tree tree plot
+plt.plot(kValues, KdAccuracy)
+plt.xlabel('K values')
+plt.ylabel('Accuracy')
+plt.title('Accuracy of Different K Values Using KNN Classification with KD Tree Algorithm')
+plt.show()
+
+# Brute force search plot
+plt.plot(kValues, BruteAccuracy)
+plt.xlabel('K values')
+plt.ylabel('Accuracy')
+plt.title('Accuracy of Different K Values Using KNN Classification with Brute force search Algorithm')
+plt.show()
+
+"""
 
 # #Logistic Regression
 # logReg = LogisticRegression()
@@ -140,9 +165,12 @@ print("Using the brute-force search algorithm with knn, the best k value was {},
 bestlogAccuracy = 0
 bestCValue = 0
 logAccuracies = []
+CValues = []
 
 for i in range (1, 11):
     currC = i/10
+    print(currC)
+    CValues.append(currC)
     logReg = LogisticRegression(C=currC)    
     logReg.fit(X_train, y_train)
     logPredict = logReg.predict(X_test)
@@ -156,7 +184,7 @@ for i in range (1, 11):
     if bestlogAccuracy < logAcc :
         bestlogAccuracy = logAcc
         bestCValue = currC
-        
+print(logAccuracies)    
 print("Using the Logistic Regression Model, the best C value was {}, with a mean accuracy of {}".format(bestCValue, bestlogAccuracy))
 print(logAccuracies)
 # Applying Support Vector Machines for Classification
