@@ -4,12 +4,13 @@ import csv
 import matplotlib.pyplot as plt     # pip install matplotlib
 import sklearn
 from sklearn.model_selection import train_test_split    # use to split up the data set
+from sklearn import metrics #use to check accuracy
 #classification models
 from sklearn.linear_model import LogisticRegression   # do: pip install scikit-learn
 from sklearn.neighbors import KNeighborsClassifier  
 from sklearn import svm
 from sklearn.naive_bayes import GaussianNB
-
+from sklearn.ensemble import RandomForestClassifier
 
 dataPath = "mccomasData.csv"    #data file path
 targetPath = "mccomasTarget.csv"    #target file path
@@ -122,20 +123,41 @@ for i in range (1, 31):
 print("Using the brute-force search algorithm with knn, the best k value was {}, with a mean accuracy of {}".format(bestBruteKValue, bestBruteAccuracy))
 
 
+# #Logistic Regression
+# logReg = LogisticRegression()
+# #fit data to model
+# logReg.fit(X_train, y_train)
+# #predict test data
+# logPredict = logReg.predict(X_test)
+# #save accuracies into a list
+# logRegAccuracies = [prediction == testVal for prediction, testVal in zip(logPredict, y_test)]
+# #total accuracy
+# logAcc = sum(logRegAccuracies) / len(logRegAccuracies)
+# #print
+# print("Using the Logistic Regression model, the mean accuracy was: ", logAcc)
+
 #Logistic Regression
-logReg = LogisticRegression()
-#fit data to model
-logReg.fit(X_train, y_train)
-#predict test data
-logPredict = logReg.predict(X_test)
-#save accuracies into a list
-logRegAccuracies = [prediction == testVal for prediction, testVal in zip(logPredict, y_test)]
-#total accuracy
-logAcc = sum(logRegAccuracies) / len(logRegAccuracies)
-#print
-print("Using the Logistic Regression model, the mean accuracy was: ", logAcc)
+bestlogAccuracy = 0
+bestCValue = 0
+logAccuracies = []
 
+for i in range (1, 41):
+    currC = i/10
+    logReg = LogisticRegression(C=currC)    
+    logReg.fit(X_train, y_train)
+    logPredict = logReg.predict(X_test)
+    #save accuracies into a list
+    logRegAccuracies = [prediction == testVal for prediction, testVal in zip(logPredict, y_test)]
+    #total accuracy
+    logAcc = sum(logRegAccuracies) / len(logRegAccuracies)
+    logAccuracies.append(logAcc)
+    #print(mean_accuracy)
 
+    if bestlogAccuracy < logAcc :
+        bestlogAccuracy = logAcc
+        bestCValue = currC
+        
+print("Using the Logistic Regression Model, the best C value was {}, with a mean accuracy of {}".format(bestCValue, bestlogAccuracy))
 
 # Applying Support Vector Machines for Classification
 
@@ -143,3 +165,12 @@ svm_model = svm.SVC()
 svm_model.fit(X_train, y_train)
 svm_accuracy = svm_model.score(X_test, y_test)
 print("Using Support Vector Machines, an accuracy of {} was obtained".format(svm_accuracy))
+
+#Random Forest
+rfc = RandomForestClassifier(n_estimators=100)
+
+rfc.fit(X_train, y_train)
+
+rfcPred = rfc.predict(X_test)
+
+print("Using a Random Forest Classifier with 100 estimators, we got an accuracy of ", metrics.accuracy_score(y_test, rfcPred))
