@@ -9,7 +9,6 @@ from sklearn import metrics #use to check accuracy
 from sklearn.linear_model import LogisticRegression      # do: pip install scikit-learn
 from sklearn.neighbors import KNeighborsClassifier  
 from sklearn import svm
-from sklearn.naive_bayes import GaussianNB
 from sklearn.ensemble import RandomForestClassifier
 
 dataPath = "mccomasData.csv"    #data file path
