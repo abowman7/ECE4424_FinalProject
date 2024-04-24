@@ -141,7 +141,7 @@ bestlogAccuracy = 0
 bestCValue = 0
 logAccuracies = []
 
-for i in range (1, 41):
+for i in range (1, 11):
     currC = i/10
     logReg = LogisticRegression(C=currC)    
     logReg.fit(X_train, y_train)
@@ -158,7 +158,7 @@ for i in range (1, 41):
         bestCValue = currC
         
 print("Using the Logistic Regression Model, the best C value was {}, with a mean accuracy of {}".format(bestCValue, bestlogAccuracy))
-
+print(logAccuracies)
 # Applying Support Vector Machines for Classification
 
 svm_model = svm.SVC()
