@@ -4,6 +4,7 @@ import csv
 import matplotlib.pyplot as plt     # pip install matplotlib
 import sklearn
 from sklearn.model_selection import train_test_split    # use to split up the data set
+from sklearn import metrics #use to check accuracy
 #classification models
 from sklearn.linear_model import LogisticRegression   # do: pip install scikit-learn
 from sklearn.neighbors import KNeighborsClassifier  
@@ -164,3 +165,12 @@ svm_model = svm.SVC()
 svm_model.fit(X_train, y_train)
 svm_accuracy = svm_model.score(X_test, y_test)
 print("Using Support Vector Machines, an accuracy of {} was obtained".format(svm_accuracy))
+
+#Random Forest
+rfc = RandomForestClassifier(n_estimators=100)
+
+rfc.fit(X_train, y_train)
+
+rfcPred = rfc.predict(X_test)
+
+print("Using a Random Forest Classifier with 100 estimators, we got an accuracy of ", metrics.accuracy_score(y_test, rfcPred))
