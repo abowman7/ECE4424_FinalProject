@@ -206,10 +206,11 @@ print("Using a Random Forest Classifier with 100 estimators, we got an accuracy 
 bagRFC = RandomForestClassifier(n_estimators=100).fit(X_train, y_train).predict(X_test)
 bagLog = LogisticRegression(C=bestCValue).fit(X_train, y_train).predict(X_test)
 bagKNN = KNeighborsClassifier(n_neighbors=bestBallKValue).fit(X_train, y_train).predict(X_test)
+bagSVC = svm.SVC().fit(X_train, y_train).predict(X_test)
 
 bagPreds = []
 for i in range(len(bagRFC)):
-    votes = [bagRFC[i], bagLog[i], bagKNN[i]]
+    votes = [bagRFC[i], bagLog[i], bagKNN[i], bagKNN[i], bagSVC[i]]
     prob = sum(votes) / len(votes)
     bagPreds.append(prob > 0.5)
 
