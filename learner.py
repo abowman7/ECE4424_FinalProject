@@ -1,5 +1,4 @@
 import numpy as np
-import csv
 import matplotlib.pyplot as plt                          # pip install matplotlib
 import sklearn
 from sklearn.model_selection import train_test_split     # use to split up the data set
@@ -146,19 +145,6 @@ plt.title('Accuracy of Different K Values Using KNN Classification with Brute fo
 plt.show()
 
 """
-
-# #Logistic Regression
-# logReg = LogisticRegression()
-# #fit data to model
-# logReg.fit(X_train, y_train)
-# #predict test data
-# logPredict = logReg.predict(X_test)
-# #save accuracies into a list
-# logRegAccuracies = [prediction == testVal for prediction, testVal in zip(logPredict, y_test)]
-# #total accuracy
-# logAcc = sum(logRegAccuracies) / len(logRegAccuracies)
-# #print
-# print("Using the Logistic Regression model, the mean accuracy was: ", logAcc)
 
 #Logistic Regression
 bestlogAccuracy = 0
