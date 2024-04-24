@@ -122,20 +122,41 @@ for i in range (1, 31):
 print("Using the brute-force search algorithm with knn, the best k value was {}, with a mean accuracy of {}".format(bestBruteKValue, bestBruteAccuracy))
 
 
+# #Logistic Regression
+# logReg = LogisticRegression()
+# #fit data to model
+# logReg.fit(X_train, y_train)
+# #predict test data
+# logPredict = logReg.predict(X_test)
+# #save accuracies into a list
+# logRegAccuracies = [prediction == testVal for prediction, testVal in zip(logPredict, y_test)]
+# #total accuracy
+# logAcc = sum(logRegAccuracies) / len(logRegAccuracies)
+# #print
+# print("Using the Logistic Regression model, the mean accuracy was: ", logAcc)
+
 #Logistic Regression
-logReg = LogisticRegression()
-#fit data to model
-logReg.fit(X_train, y_train)
-#predict test data
-logPredict = logReg.predict(X_test)
-#save accuracies into a list
-logRegAccuracies = [prediction == testVal for prediction, testVal in zip(logPredict, y_test)]
-#total accuracy
-logAcc = sum(logRegAccuracies) / len(logRegAccuracies)
-#print
-print("Using the Logistic Regression model, the mean accuracy was: ", logAcc)
+bestlogAccuracy = 0
+bestCValue = 0
+logAccuracies = []
 
+for i in range (1, 41):
+    currC = i/10
+    logReg = LogisticRegression(C=currC)    
+    logReg.fit(X_train, y_train)
+    logPredict = logReg.predict(X_test)
+    #save accuracies into a list
+    logRegAccuracies = [prediction == testVal for prediction, testVal in zip(logPredict, y_test)]
+    #total accuracy
+    logAcc = sum(logRegAccuracies) / len(logRegAccuracies)
+    logAccuracies.append(logAcc)
+    #print(mean_accuracy)
 
+    if bestlogAccuracy < logAcc :
+        bestlogAccuracy = logAcc
+        bestCValue = currC
+        
+print("Using the Logistic Regression Model, the best C value was {}, with a mean accuracy of {}".format(bestCValue, bestlogAccuracy))
 
 # Applying Support Vector Machines for Classification
 
