@@ -169,7 +169,6 @@ CValues = []
 
 for i in range (1, 11):
     currC = i/10
-    print(currC)
     CValues.append(currC)
     logReg = LogisticRegression(C=currC)    
     logReg.fit(X_train, y_train)
@@ -184,9 +183,9 @@ for i in range (1, 11):
     if bestlogAccuracy < logAcc :
         bestlogAccuracy = logAcc
         bestCValue = currC
-print(logAccuracies)    
+    
 print("Using the Logistic Regression Model, the best C value was {}, with a mean accuracy of {}".format(bestCValue, bestlogAccuracy))
-print(logAccuracies)
+
 # Applying Support Vector Machines for Classification
 
 svm_model = svm.SVC()
@@ -202,3 +201,16 @@ rfc.fit(X_train, y_train)
 rfcPred = rfc.predict(X_test)
 
 print("Using a Random Forest Classifier with 100 estimators, we got an accuracy of ", metrics.accuracy_score(y_test, rfcPred))
+
+# bagging
+bagRFC = RandomForestClassifier(n_estimators=100).fit(X_train, y_train).predict(X_test)
+bagLog = LogisticRegression(C=bestCValue).fit(X_train, y_train).predict(X_test)
+bagKNN = KNeighborsClassifier(n_neighbors=bestBallKValue).fit(X_train, y_train).predict(X_test)
+
+bagPreds = []
+for i in range(len(bagRFC)):
+    votes = [bagRFC[i], bagLog[i], bagKNN[i]]
+    prob = sum(votes) / len(votes)
+    bagPreds.append(prob > 0.5)
+
+print("Using our Bagging implemented from scratch, we got an accuracy of ", metrics.accuracy_score(y_test, bagPreds))
