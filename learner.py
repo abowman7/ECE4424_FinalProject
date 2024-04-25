@@ -54,12 +54,8 @@ for i in range(len(floatTime)):
 #print(inputData)
 
 # Splitting into training and test data
-rs = 0              #random state variable
 X_train, X_test, y_train, y_test = train_test_split(inputData, occupancy, test_size=0.2, random_state=0)
 #print(X_train)
-
-#gnb = GaussianNB()
-#y_pred = gnb.fit(X_train, y_train).predict(X_test)
 
 
 # Applying KNN Classification 
@@ -81,7 +77,7 @@ for i in range (1, 31):
         bestBallKValue = i
         
 print("Using the ball tree algorithm with knn, the best k value was {}, with a mean accuracy of {}".format(bestBallKValue, bestBallAccuracy))
-
+print("")
 
 #knn using kd tree algorithm
 bestKdAccuracy = 0
@@ -100,7 +96,7 @@ for i in range (1, 31):
         bestKdKValue = i
         
 print("Using the kd tree algorithm with knn, the best k value was {}, with a mean accuracy of {}".format(bestKdKValue, bestKdAccuracy))
-
+print("")
 
 #knn using brute force search
 bestBruteAccuracy = 0
@@ -120,9 +116,10 @@ for i in range (1, 31):
         
 
 print("Using the brute-force search algorithm with knn, the best k value was {}, with a mean accuracy of {}".format(bestBruteKValue, bestBruteAccuracy))
-"""
-# KNN Plots
+print("")
 
+# KNN Plots
+"""
 # Ball tree plot
 plt.plot(kValues, BallAccuracy)
 plt.xlabel('K values')
@@ -143,7 +140,44 @@ plt.xlabel('K values')
 plt.ylabel('Accuracy')
 plt.title('Accuracy of Different K Values Using KNN Classification with Brute force search Algorithm')
 plt.show()
+"""
 
+# Additional Knn test, with different random states for training split and k value of 3
+
+"""
+randomStateValues = []
+ballAccuracies= []
+kdAccuracies = []
+bruteAccuracies = []
+for i in range (15):
+    randomStateValues.append(i)   
+    # Splitting into training and test data
+    X_train, X_test, y_train, y_test = train_test_split(inputData, occupancy, test_size=0.2, random_state=i)
+
+
+    knn_ball = KNeighborsClassifier(n_neighbors=3, algorithm='ball_tree')    
+    knn_ball.fit(X_train, y_train)
+    mean_accuracy = knn_ball.score(X_test, y_test)
+    ballAccuracies.append(mean_accuracy)
+    
+    knn_kd = KNeighborsClassifier(n_neighbors=3, algorithm='kd_tree')    
+    knn_kd.fit(X_train, y_train)
+    mean_accuracy = knn_kd.score(X_test, y_test)
+    kdAccuracies.append(mean_accuracy)
+
+    knn_brute = KNeighborsClassifier(n_neighbors=3, algorithm='brute')    
+    knn_brute.fit(X_train, y_train)
+    mean_accuracy = knn_brute.score(X_test, y_test)
+    bruteAccuracies.append(mean_accuracy)
+    
+plt.plot(randomStateValues, ballAccuracies, label = 'Ball Tree')
+plt.plot(randomStateValues, kdAccuracies, label = 'KD Tree')
+plt.plot(randomStateValues, bruteAccuracies, label = 'Brute Force')
+plt.xlabel('Random State values')
+plt.ylabel('Accuracy')
+plt.title('Accuracy of Different KNN Classification Algorithms Based on Different Data Splits (k=3)')
+plt.legend()
+plt.show()
 """
 
 #Logistic Regression
@@ -170,6 +204,7 @@ for i in range (1, 11):
         bestCValue = currC
     
 print("Using the Logistic Regression Model, the best C value was {}, with a mean accuracy of {}".format(bestCValue, bestlogAccuracy))
+print("")
 
 # Applying Support Vector Machines for Classification
 
@@ -177,6 +212,7 @@ svm_model = svm.SVC()
 svm_model.fit(X_train, y_train)
 svm_accuracy = svm_model.score(X_test, y_test)
 print("Using Support Vector Machines, an accuracy of {} was obtained".format(svm_accuracy))
+print("")
 
 #Random Forest
 rfc = RandomForestClassifier(n_estimators=100)
@@ -186,6 +222,7 @@ rfc.fit(X_train, y_train)
 rfcPred = rfc.predict(X_test)
 
 print("Using a Random Forest Classifier with 100 estimators, we got an accuracy of ", metrics.accuracy_score(y_test, rfcPred))
+print("")
 
 # bagging
 bagRFC = RandomForestClassifier(n_estimators=100).fit(X_train, y_train).predict(X_test)
@@ -200,3 +237,4 @@ for i in range(len(bagRFC)):
     bagPreds.append(prob > 0.5)
 
 print("Using our Bagging implemented from scratch, we got an accuracy of ", metrics.accuracy_score(y_test, bagPreds))
+print("")
