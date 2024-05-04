@@ -224,6 +224,19 @@ rfcPred = rfc.predict(X_test)
 print("Using a Random Forest Classifier with 100 estimators, we got an accuracy of ", metrics.accuracy_score(y_test, rfcPred))
 print("")
 
+
+#Accuracy Bar Chart
+avgKnn = (bestKdAccuracy + bestBruteAccuracy + bestBallAccuracy)/3
+rfcAcc = metrics.accuracy_score(y_test, rfcPred)
+plotAcc = [avgKnn, bestlogAccuracy, rfcAcc, svm_accuracy]
+plotLabels = ['Avg KNN', 'Logistic Regression', 'Random Forest', 'SVC']
+
+plt.bar(plotLabels, plotAcc)
+plt.title("Comparing the Results of Different Classification Methods")
+plt.xlabel("Classification Methods")
+plt.ylabel("Accuracies");
+plt.show()
+
 # bagging
 bagRFC = RandomForestClassifier(n_estimators=100).fit(X_train, y_train).predict(X_test)
 bagLog = LogisticRegression(C=bestCValue).fit(X_train, y_train).predict(X_test)
