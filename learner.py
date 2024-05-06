@@ -276,3 +276,20 @@ plt.xlabel("Time")
 plt.ylabel("Occupancy")
 plt.title("All Gathered McComas Data (Time vs. Occupancy)")
 plt.show()
+
+#predict user inputted values
+predKNN = KNeighborsClassifier(n_neighbors=3).fit(inputData, occupancy)
+#get user inputs
+faren = float(input("Enter the current Temperature in Farenheit: "))
+cHour = float(input("Enter the current Time in the format hr.(min/60): "))
+weekday = float(input("Enter the current day of the week (0-Monday, 6-Sunday): "))
+userValues = []
+userValues.append([faren, cHour, weekday])
+#predict
+prediction = predKNN.predict(userValues)
+
+#output prediction
+if prediction[0] == 1:
+    print("The gym will not be busy.")
+else:
+    print("The gym will be busy.")
