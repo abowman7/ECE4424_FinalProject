@@ -251,3 +251,28 @@ for i in range(len(bagRFC)):
 
 print("Using our Bagging implemented from scratch, we got an accuracy of ", metrics.accuracy_score(y_test, bagPreds))
 print("")
+
+#breaking data into day of week
+mond = np.array([[inputData[i][1], float(initTarget[i][0])] for i in range(len(inputData)) if inputData[i][2] == 0])
+tues = np.array([[inputData[i][1], float(initTarget[i][0])] for i in range(len(inputData)) if inputData[i][2] == 1])
+wedn = np.array([[inputData[i][1], float(initTarget[i][0])] for i in range(len(inputData)) if inputData[i][2] == 2])
+thur = np.array([[inputData[i][1], float(initTarget[i][0])] for i in range(len(inputData)) if inputData[i][2] == 3])
+frid = np.array([[inputData[i][1], float(initTarget[i][0])] for i in range(len(inputData)) if inputData[i][2] == 4])
+satu = np.array([[inputData[i][1], float(initTarget[i][0])] for i in range(len(inputData)) if inputData[i][2] == 5])
+sund = np.array([[inputData[i][1], float(initTarget[i][0])] for i in range(len(inputData)) if inputData[i][2] == 6])
+
+#plot all data
+plt.scatter(mond[:,0], mond[:,1], color='red', label='Monday', marker='.', alpha=0.5)
+plt.scatter(tues[:,0], tues[:,1], color='blue', label='Tuesday', marker='o', alpha=0.5)
+plt.scatter(wedn[:,0], wedn[:,1], color='green', label='Wednesday', marker='+', alpha=0.5)
+plt.scatter(thur[:,0], thur[:,1], color='orange', label='Thursday', marker='x', alpha=0.5)
+plt.scatter(frid[:,0], frid[:,1], color='yellow', label='Friday', marker='^', alpha=0.5)
+plt.scatter(satu[:,0], satu[:,1], color='purple', label='Saturday', marker='s', alpha=0.5)
+plt.scatter(sund[:,0], sund[:,1], color='brown', label='Sunday', marker='*', alpha=0.5)
+plt.axhline(y=300, color='black', label='1/2 Cap', alpha=0.3)
+
+plt.legend()
+plt.xlabel("Time")
+plt.ylabel("Occupancy")
+plt.title("All Gathered McComas Data (Time vs. Occupancy)")
+plt.show()
