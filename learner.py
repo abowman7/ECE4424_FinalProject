@@ -234,7 +234,7 @@ plotLabels = ['Avg KNN', 'Logistic Regression', 'Random Forest', 'SVC']
 plt.bar(plotLabels, plotAcc)
 plt.title("Comparing the Results of Different Classification Methods")
 plt.xlabel("Classification Methods")
-plt.ylabel("Accuracies");
+plt.ylabel("Accuracies")
 plt.show()
 
 # bagging
